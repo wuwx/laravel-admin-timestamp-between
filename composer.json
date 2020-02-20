@@ -1,0 +1,33 @@
+{
+    "name": "wuwx/laravel-admin-timestamp-between",
+    "description": "Timestamp Between Filter",
+    "type": "library",
+    "keywords": ["laravel-admin", "extension"],
+    "homepage": "https://github.com/wuwx/laravel-admin-timestamp-between",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wuwx",
+            "email": "wuweixin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "encore/laravel-admin": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wuwx\\LaravelAdminTimestampBetween\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wuwx\\LaravelAdminTimestampBetween\\LaravelAdminTimestampBetweenServiceProvider"
+            ]
+        }
+    }
+}
