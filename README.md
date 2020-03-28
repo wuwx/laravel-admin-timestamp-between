@@ -1,7 +1,7 @@
 Laravel Admin Timestamp Between Extension
 ======
 ```
-composer install wuwx/laravel-admin-timestamp-between
+composer require wuwx/laravel-admin-timestamp-between
 ```
 
 ```php
