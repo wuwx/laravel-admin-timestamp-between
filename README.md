@@ -56,4 +56,4 @@ composer test
 
 Composer 2.10 及以上需先按上文放行安全公告，否则 `composer install` 无法解析依赖。
 
-CI 覆盖 PHP 7.4 和 8.3 两个版本跑 PHPUnit，另外对 7.4 至 8.4 做语法检查。
+CI 在 PHP 7.0 至 8.5 的每个版本上跑 PHPUnit 和语法检查。

@@ -21,7 +21,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.5'
           coverage: none
 
       - run: composer validate --no-check-publish
@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
 
@@ -40,6 +40,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
+          tools: none
 
       - run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
 
@@ -49,17 +50,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.3']
+        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
 
+      # Composer 2.3+ 要求 PHP >= 7.2.5，7.0/7.1 只能用 2.2
       - uses: shivammathur/setup-php@v2
+        if: matrix.php == '7.0' || matrix.php == '7.1'
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:2.2
+
+      - uses: shivammathur/setup-php@v2
+        if: matrix.php != '7.0' && matrix.php != '7.1'
         with:
           php-version: ${{ matrix.php }}
           coverage: none
 
       # encore/laravel-admin <= 1.8.19 带未修复的高危公告，Composer 2.10+ 默认拒绝解析
-      - run: composer config policy.advisories.block false
+      - if: matrix.php != '7.0' && matrix.php != '7.1'
+        run: composer config policy.advisories.block false
 
       - run: composer update --prefer-dist --no-interaction --no-progress
 
