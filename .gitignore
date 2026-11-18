@@ -4,4 +4,6 @@ phpunit.phar
 composer.phar
 composer.lock
 *.project
+
 .idea/
+.phpunit.result.cache

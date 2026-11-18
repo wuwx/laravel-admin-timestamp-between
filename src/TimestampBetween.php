@@ -18,28 +18,42 @@ class TimestampBetween extends Between
 
         $this->value = Arr::get($inputs, $this->column);
 
+        if (!is_array($this->value)) {
+            return;
+        }
+
         $value = array_filter($this->value, function ($val) {
             return $val !== '';
         });
 
-        if (empty($value)) {
+        $start = isset($value['start']) ? $this->timestamp($value['start']) : null;
+        $end   = isset($value['end']) ? $this->timestamp($value['end']) : null;
+
+        if (is_null($start) && is_null($end)) {
             return;
         }
 
-        if (!isset($value['start'])) {
-            $value['end'] = strtotime($value['end']);
-            return $this->buildCondition($this->column, '<=', $value['end']);
+        if (is_null($start)) {
+            return $this->buildCondition($this->column, '<=', $end);
         }
 
-        if (!isset($value['end'])) {
-            $value['start'] = strtotime($value['start']);
-            return $this->buildCondition($this->column, '>=', $value['start']);
+        if (is_null($end)) {
+            return $this->buildCondition($this->column, '>=', $start);
         }
 
         $this->query = 'whereBetween';
 
-        $value['end'] = strtotime($value['end']);
-        $value['start'] = strtotime($value['start']);
-        return $this->buildCondition($this->column, $value);
+        return $this->buildCondition($this->column, ['start' => $start, 'end' => $end]);
+    }
+
+    private function timestamp($value)
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $timestamp = strtotime($value);
+
+        return $timestamp === false ? null : $timestamp;
     }
 }

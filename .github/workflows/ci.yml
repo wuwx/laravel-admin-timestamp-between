@@ -42,3 +42,25 @@ jobs:
           coverage: none
 
       - run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
+
+  test:
+    name: phpunit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      # encore/laravel-admin <= 1.8.19 带未修复的高危公告，Composer 2.10+ 默认拒绝解析
+      - run: composer config policy.advisories.block false
+
+      - run: composer update --prefer-dist --no-interaction --no-progress
+
+      - run: vendor/bin/phpunit
