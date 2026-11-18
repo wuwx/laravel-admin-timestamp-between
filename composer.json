@@ -28,6 +28,11 @@
             "Wuwx\\LaravelAdminTimestampBetween\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
+    },
     "scripts": {
         "test": "phpunit"
     },
