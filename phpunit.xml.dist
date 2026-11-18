@@ -4,6 +4,9 @@
          bootstrap="vendor/autoload.php"
          colors="true"
          cacheResultFile=".phpunit.result.cache">
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
     <testsuites>
         <testsuite name="TimestampBetween">
             <directory>tests</directory>

@@ -10,13 +10,6 @@ use Wuwx\LaravelAdminTimestampBetween\TimestampBetween;
  */
 class TimestampBetweenTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        date_default_timezone_set('UTC');
-    }
-
     public function testConditionUsesWhereBetweenWhenBothBoundsPresent()
     {
         $condition = $this->filter()->condition([
